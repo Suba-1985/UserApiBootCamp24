@@ -845,27 +845,5 @@
 				]
 			}
 		}
-	],
-	"variable": [
-		{
-			"key": "usersData",
-			"value": ""
-		},
-		{
-			"key": "userid1",
-			"value": ""
-		},
-		{
-			"key": "firstname1",
-			"value": ""
-		},
-		{
-			"key": "userid2",
-			"value": ""
-		},
-		{
-			"key": "firstname2",
-			"value": ""
-		}
 	]
 }
