@@ -598,8 +598,8 @@
 							"    console.log(\"No users to delete.\");\r",
 							"}\r",
 							"\r",
-							"\r",
-							"//pm.collectionVariables.clear();"
+							"pm.cookies.clear();\r",
+							"pm.collectionVariables.clear();"
 						],
 						"type": "text/javascript",
 						"packages": {}
