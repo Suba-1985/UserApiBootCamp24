@@ -1,0 +1,841 @@
+{
+	"info": {
+		"_postman_id": "bae87a14-edc1-47c9-8e7f-8000fa99e179",
+		"name": "USERAPI-SEP2024",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetAllUsers",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "05a26181-90f4-4b0a-993e-4c6c32f77903",
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "e027a6d0-c59d-4abb-943c-d4a18b70370d",
+						"exec": [
+							"\r",
+							"let validate =pm.globals.get(\"validateFunction\");\r",
+							"//let validate = pm.collectionVariables.get(\"validateFunction\")\r",
+							"\r",
+							"\r",
+							"let userid=pm.collectionVariables.get(\"userid1\");\r",
+							"if(pm.response.code===200){\r",
+							"  validate(pm.request.method,\"header\",userid);   \r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"id": "92451206-b50c-405d-8f59-727c47961264",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{BaseUrl}}{{GetAllUsersEndPoint}}"
+			},
+			"response": []
+		},
+		{
+			"name": "CreateUserwithmandatoryfieldsonly",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3cc63cce-6463-4146-b2f4-db389f90e463",
+						"exec": [
+							"//const validate = pm.require('@red-desert-73536/reusablescriptvalidationforeachmethodtype');\r",
+							"let validate =pm.globals.get(\"validateFunction\");\r",
+							"\r",
+							"let usersDataStr = pm.collectionVariables.get(\"usersData\");\r",
+							"let usersData = usersDataStr ? JSON.parse(usersDataStr) : [];\r",
+							"let expectedStatus = parseInt(pm.variables.get(\"ExpectedStatus\"));\r",
+							"\r",
+							"console.log(\"expectedStatus\",expectedStatus);\r",
+							"console.log(\"pm.response.code\",pm.response.code);\r",
+							"if (pm.response.code === expectedStatus && pm.response.code===201) {\r",
+							"console.log(\"in ifblock\");\r",
+							"const schema={\r",
+							"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+							"  \"type\": \"object\",\r",
+							"  \"properties\": {\r",
+							"    \"userAddress\": {\r",
+							"      \"type\": \"object\",\r",
+							"      \"properties\": {\r",
+							"        \"addressId\": {\r",
+							"          \"type\": \"integer\"\r",
+							"        },\r",
+							"        \"plotNumber\": {\r",
+							"          \"type\": \"string\"\r",
+							"        },\r",
+							"        \"street\": {\r",
+							"          \"type\": \"string\"\r",
+							"        },\r",
+							"        \"state\": {\r",
+							"          \"type\": \"string\"\r",
+							"        },\r",
+							"        \"country\": {\r",
+							"          \"type\": \"string\"\r",
+							"        },\r",
+							"        \"zipCode\": {\r",
+							"          \"type\": \"integer\"\r",
+							"        }\r",
+							"      },\r",
+							"      \"required\": [\r",
+							"        \"addressId\",\r",
+							"        \"plotNumber\",\r",
+							"        \"street\",\r",
+							"        \"state\",\r",
+							"        \"country\",\r",
+							"        \"zipCode\"\r",
+							"      ]\r",
+							"    },\r",
+							"    \"user_id\": {\r",
+							"      \"type\": \"integer\"\r",
+							"    },\r",
+							"    \"user_first_name\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"user_last_name\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"user_contact_number\": {\r",
+							"      \"type\": \"integer\"\r",
+							"    },\r",
+							"    \"user_email_id\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"creation_time\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"last_mod_time\": {\r",
+							"      \"type\": \"string\"\r",
+							"    }\r",
+							"  },\r",
+							"  \"required\": [\r",
+							"    \"userAddress\",\r",
+							"    \"user_id\",\r",
+							"    \"user_first_name\",\r",
+							"    \"user_last_name\",\r",
+							"    \"user_contact_number\",\r",
+							"    \"user_email_id\",\r",
+							"    \"creation_time\",\r",
+							"    \"last_mod_time\"\r",
+							"  ]\r",
+							"}\r",
+							"\r",
+							"pm.test('Response is valid', function() {\r",
+							"  pm.response.to.have.jsonSchema(schema);\r",
+							"});\r",
+							"\r",
+							"validate(pm.request.method,\"header\");\r",
+							"validate(pm.request.method,\"response time\");\r",
+							"validate(pm.request.method,\"methodType\");\r",
+							"\r",
+							"let newUser = {\r",
+							"    userId: pm.response.json().user_id,  \r",
+							"    username: pm.response.json().user_first_name \r",
+							"};\r",
+							"\r",
+							"usersData.push(newUser);\r",
+							"\r",
+							"pm.collectionVariables.set(\"usersData\", JSON.stringify(usersData));\r",
+							"\r",
+							"if (usersData.length > 0) {\r",
+							"   \r",
+							"    let firstUser = usersData[0];\r",
+							"    if (firstUser) {\r",
+							"        console.log(\"First User ID:\", firstUser.userId);\r",
+							"        pm.collectionVariables.set(\"userid1\", firstUser.userId);\r",
+							"        pm.collectionVariables.set(\"firstname1\", firstUser.username);\r",
+							"    }\r",
+							"\r",
+							"   \r",
+							"    let secondUser = usersData[1];\r",
+							"    if (secondUser) {\r",
+							"        console.log(\"Second User Username:\", secondUser.username);\r",
+							"         pm.collectionVariables.set(\"userid2\", secondUser.userId);\r",
+							"         pm.collectionVariables.set(\"firstname2\", secondUser.username);\r",
+							"    }\r",
+							"} else {\r",
+							"    console.log(\"No users in the array.\");\r",
+							"}}\r",
+							"else if(pm.response.code === 201 && expectedStatus===400){\r",
+							"    console.log(\"in else block\");\r",
+							"let userId = pm.response.json().user_id;  // Assuming 'user_id' is the field in the response\r",
+							"     pm.collectionVariables.set(\"userid1\", userId);\r",
+							"    console.log(\"User ID created unexpectedly:\", userId);\r",
+							"  \r",
+							"\r",
+							"   pm.sendRequest({\r",
+							"        url: `https://userserviceapp-f5a54828541b.herokuapp.com/uap/deleteuser/${userId}`,  \r",
+							"        method: 'DELETE',\r",
+							"        header: {\r",
+							"            'Content-Type': 'application/json'            \r",
+							"    }, function (err, res) {\r",
+							"        if (err) {\r",
+							"            console.log(\"Error while deleting user:\", err);\r",
+							"        } else {\r",
+							"            console.log(\"Clean-up successful for user ID:\", userId);\r",
+							"        }\r",
+							"}});\r",
+							"}\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "feb556bf-a5db-414b-9051-dc31a10b014b",
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"id": "0776e704-9303-4ca6-a490-27603117ec57",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"userAddress\":\r\n{\r\n},\r\n\"user_first_name\": \"{{user_first_name}}\",\r\n\"user_last_name\":\"{{user_last_name}}\",\r\n\"user_contact_number\":\"{{user_contact_number}}\",\r\n\"user_email_id\":\"{{user_email_id}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{BaseUrl}}{{CreateUserwithmandatoryfieldsonly}}"
+			},
+			"response": []
+		},
+		{
+			"name": "GetUserByID",
+			"id": "c6e0043b-a7f0-42c2-8f09-a39db2677e79",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{baseurl}}{{GetUserByID}}"
+			},
+			"response": []
+		},
+		{
+			"name": "CreateUserwithmandatoryfieldsandOptionalFields",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "96f528e4-c2ff-4735-9805-0b16b67224f2",
+						"exec": [
+							"\r",
+							"let usersDataStr = pm.collectionVariables.get(\"usersData\");\r",
+							"let usersData = usersDataStr ? JSON.parse(usersDataStr) : [];\r",
+							"let expectedStatus = parseInt(pm.variables.get(\"ExpectedStatus\"));\r",
+							"\r",
+							"console.log(\"expectedStatus\",expectedStatus);\r",
+							"if (pm.response.code === expectedStatus && pm.response.code===201) {\r",
+							" console.log(\"in ifblock\");\r",
+							"pm.globals.set(\"variable_key\", \"variable_value\");\r",
+							"let newUser = {\r",
+							"    userId: pm.response.json().user_id,  // Assuming the response has a field 'user_id'\r",
+							"    username: pm.response.json().user_first_name // Assuming the response has 'user_first_name'\r",
+							"};\r",
+							"// Add the new user data to the usersData array\r",
+							"usersData.push(newUser);\r",
+							"// Save the updated array back to the collection variable\r",
+							"pm.collectionVariables.set(\"usersData\", JSON.stringify(usersData));\r",
+							"\r",
+							"if (usersData.length > 0) {\r",
+							"    // Access the first user's data\r",
+							"    let thirdUser = usersData[2];\r",
+							"    if (thirdUser) {\r",
+							"        console.log(\"First User ID:\", thirdUser.userId);\r",
+							"        pm.collectionVariables.set(\"userid3\", thirdUser.userId);\r",
+							"        pm.collectionVariables.set(\"firstname3\", thirdUser.username);\r",
+							"    }\r",
+							"\r",
+							"    // Access the second user's data, if it exists\r",
+							"    let fourthUser = usersData[3];\r",
+							"    if (fourthUser) {\r",
+							"        console.log(\"Second User Username:\", fourthUser.username);\r",
+							"         pm.collectionVariables.set(\"userid4\", fourthUser.userId);\r",
+							"         pm.collectionVariables.set(\"firstname4\", fourthUser.username);\r",
+							"    }\r",
+							"\r",
+							"    let fifthUser = usersData[4];\r",
+							"    if (fifthUser) {\r",
+							"        console.log(\"Second User Username:\", fifthUser.username);\r",
+							"         pm.collectionVariables.set(\"userid5\", fifthUser.userId);\r",
+							"         pm.collectionVariables.set(\"firstname5\", fifthUser.username);\r",
+							"    }\r",
+							"} else {\r",
+							"    console.log(\"No users in the array.\");\r",
+							"}}\r",
+							"else if(pm.response.code === 201 && expectedStatus===400){\r",
+							"    console.log(\"in else block\");\r",
+							"let userId = pm.response.json().user_id;  // Assuming 'user_id' is the field in the response\r",
+							"     pm.collectionVariables.set(\"userid1\", userId);\r",
+							"    console.log(\"User ID created unexpectedly:\", userId);\r",
+							"   // pm.execution.setNextRequest(\"DeleteByUserID\");\r",
+							"\r",
+							"   pm.sendRequest({\r",
+							"        url: `https://userserviceapp-f5a54828541b.herokuapp.com/uap/deleteuser/${userId}`,  // Update with your DELETE endpoint\r",
+							"        method: 'DELETE',\r",
+							"        header: {\r",
+							"            'Content-Type': 'application/json'            \r",
+							"    }, function (err, res) {\r",
+							"        if (err) {\r",
+							"            console.log(\"Error while deleting user:\", err);\r",
+							"        } else {\r",
+							"            console.log(\"Clean-up successful for user ID:\", userId);\r",
+							"        }\r",
+							"}});\r",
+							"}\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "4cee91db-9a59-44c3-8ce8-e98c0838f8f0",
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"id": "bbd68b55-24aa-4ecb-8c31-1cdd5caa3a61",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "{{password}}",
+						"username": "{{username}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"user_first_name\": \"{{user_first_name}}\",\r\n\"user_last_name\":\"{{user_last_name}}\",\r\n\"user_contact_number\":\"{{user_contact_number}}\",\r\n\"user_email_id\":\"{{user_email_id}}\",\r\n\r\n\"userAddress\": {\r\n   \"plotNumber\": \"{{plotnumber}}\",\r\n   \"street\": \"{{street}}\",\r\n   \"state\": \"{{state}}\",\r\n    \"country\": \"{{country}}\",\r\n   \"zipCode\": \"{{zipCode}}\"\r\n }\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{baseurl}}{{CreateUserwithmandatoryfieldsandOptionalFields}}"
+			},
+			"response": []
+		},
+		{
+			"name": "GetUserByUserFirstname",
+			"id": "3b4ac194-b3c2-4368-8eb8-b7da27676e5f",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{baseurl}}{{GetUserByUserFirstname}}"
+			},
+			"response": []
+		},
+		{
+			"name": "updateUserWithID",
+			"id": "ed4a0ff9-08c2-4949-875a-5c08000c97eb",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"userAddress\": {  \r\n    \"plotNumber\": \"p-9\",\r\n    \"street\": \"string\",\r\n    \"state\": \"string\",\r\n    \"country\": \"string\",\r\n    \"zipCode\": 0\r\n  },  \r\n  \"user_first_name\": \"TeamSeven\",\r\n  \"user_last_name\": \"TeamSeven\",\r\n  \"user_contact_number\": 4578985612,\r\n  \"user_email_id\": \"string@sdg.sdf\"  \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{baseurl}}{{updateUserWithID}}"
+			},
+			"response": []
+		},
+		{
+			"name": "updateUserWithUserFirstname",
+			"id": "621e2c7d-9ed6-42f2-a7ee-fc0e7c2a09c5",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"userAddress\": {  \r\n    \"plotNumber\": \"p-9\",\r\n    \"street\": \"string\",\r\n    \"state\": \"string\",\r\n    \"country\": \"string\",\r\n    \"zipCode\": 0\r\n  },  \r\n  \"user_first_name\": \"TeamSeven\",\r\n  \"user_last_name\": \"TeamSeven\",\r\n  \"user_contact_number\": 4578985612,\r\n  \"user_email_id\": \"string@sdg.sdf\"  \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{baseurl}}{{updateUserWithUserFirstname}}"
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteByUserID",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "f4b12930-8647-4360-812c-89ad6540c679",
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "e6985db2-e53d-4d94-8fbf-7ccba2fd9ed9",
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"id": "e3246a7d-b1d0-47af-beea-d2d69d5469bd",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{BaseUrl}}{{DeleteByUserID}}"
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteByFirstname",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "28073ffd-a0f9-445c-a4b1-82ff5bbf39f5",
+						"exec": [
+							"// let usersData = JSON.parse(pm.collectionVariables.get(\"usersData\") || '[]');\r",
+							"\r",
+							"// // Check if there are any users to delete\r",
+							"// if (usersData.length === 0 ) {\r",
+							"//     console.log(\"No users to delete.\");\r",
+							"//     pm.execution.setNextRequest(null); // End the collection run\r",
+							"//     return;\r",
+							"// }\r",
+							"\r",
+							"// // Take the first user to delete\r",
+							"// let userToDelete = usersData.shift(); // Remove the first user from the list\r",
+							"// console.log(\"pre delete\", usersData);\r",
+							"// // Save the updated usersData back (with the first user removed)\r",
+							"// pm.collectionVariables.set(\"usersData\", JSON.stringify(usersData));\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "7b3f2daf-0f3a-4f40-ba66-bed9ee6058cb",
+						"exec": [
+							"// let usersData = JSON.parse(pm.collectionVariables.get(\"usersData\") || '[]');\r",
+							"// console.log(\"deleting \",usersData);\r",
+							"// if (usersData.length > 0) {\r",
+							"//     // Continue with the next DELETE request for the remaining users\r",
+							"//     pm.execution.setNextRequest(pm.info.requestName); // Repeat the current request\r",
+							"// } else {\r",
+							"//     // No more users to delete; end the collection run\r",
+							"//     console.log(\"All users deleted.\");\r",
+							"//      pm.execution.setNextRequest(null);\r",
+							"// }\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"//pm.collectionVariables.clear();"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"id": "1db76cc2-a1b2-430c-8193-d3082f61370f",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "{{BaseUrl}}{{DeleteByFirstname}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Data Cleanup",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a7d2f85d-58dd-4fd9-afad-85d28246279d",
+						"exec": [
+							"\r",
+							"let usersDataStr = pm.collectionVariables.get(\"usersData\");\r",
+							"let usersData = usersDataStr ? JSON.parse(usersDataStr) : [];\r",
+							"\r",
+							"if (usersData.length > 0) {\r",
+							"    \r",
+							"    usersData.forEach((user) => {\r",
+							"       \r",
+							"        pm.variables.set(\"currentUserId\", user.userId);\r",
+							"\r",
+							"        \r",
+							"        console.log(`Deleting user with ID: ${user.userId}`);\r",
+							"\r",
+							"       \r",
+							"        pm.sendRequest({\r",
+							"        url: `https://userserviceapp-f5a54828541b.herokuapp.com/uap/deleteuser/${user.userId}`,  \r",
+							"        method: 'DELETE',\r",
+							"        header: {\r",
+							"            'Content-Type': 'application/json'            \r",
+							"    }, function (err, res) {\r",
+							"        if (err) {\r",
+							"            console.log(\"Error while deleting user:\", err);\r",
+							"        } else {\r",
+							"            console.log(\"Clean-up successful for user ID:\", user.userId);\r",
+							"        }\r",
+							"}});\r",
+							"    });\r",
+							"} else {\r",
+							"    console.log(\"No users to delete.\");\r",
+							"}\r",
+							"\r",
+							"\r",
+							"pm.collectionVariables.clear();"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"id": "ea98f99e-43c1-4287-97a9-fbb493dd0c43",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "{{BaseUrl}}{{DeleteByUserID}}"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": {
+			"password": "{{Password}}",
+			"username": "{{Username}}"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "09eeff5c-913a-4112-b4da-f0370d9917ff",
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"\r",
+					"//checking the JSON or csv data is stored as an object like this {}. If not it will convert the data in braces and in key value pair in javascript\r",
+					"if (typeof pm.variables.get('requestdata') !== 'object') {\r",
+					"    pm.variables.set('requestdata', pm.iterationData.toObject());\r",
+					"}\r",
+					"const requestdata = pm.variables.get('requestdata');\r",
+					"\r",
+					"\r",
+					"//it checking the file is having data or a empty file\r",
+					"if(typeof requestdata !== 'object' || Object.keys(requestdata).length ===0) {\r",
+					"    console.log(\"No external file found\")\r",
+					"    return;\r",
+					"}\r",
+					"\r",
+					"\r",
+					"//filtering the name which matches the pm.info.requestName(currentrequest)\r",
+					"const currentrequest = requestdata.requests.filter(({name}) => name === pm.info.requestName) [0];\r",
+					"if(!currentrequest){\r",
+					"    console.log(`Request ${pm.info.requestName} has no data defined.`);\r",
+					"}\r",
+					"\r",
+					"//after finding the request this help to traverse the data inside the object\r",
+					"const variables = currentrequest.data.shift();// it will shift or delete the first array in the currentrequest.data and the varaibles will only store the first varray value\r",
+					"\r",
+					"for(const[key,value] of Object.entries(variables)){ //now the first array is stored as key value pair in variables in collection or environment\r",
+					"    pm.variables.set(key,value);\r",
+					"}\r",
+					"\r",
+					"pm.variables.set('requestdata',requestdata); //now the reamaining array comes next one by one\r",
+					"if(currentrequest.data.length > 0){\r",
+					"    pm.execution.setNextRequest(pm.info.requestName)\r",
+					"}\r",
+					"\r",
+					"\r",
+					"/*Example Scenario:\r",
+					"If pm.info.requestName is \"GetAllUsers\", then:\r",
+					"\r",
+					"The first execution will run with the first data set.\r",
+					"If more data exists in the data array, pm.execution.setNextRequest(\"GetAllUsers\") will rerun the same request (\"GetAllUsers\") but now with the next set of data.\r",
+					"This will continue until you exhaust all entries in the data array.*/\r",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "340b4660-128b-494e-b158-4230065896ac",
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"  function validateFunction(method, testType, userId) {\r",
+					"        switch (testType) {\r",
+					"            case \"response time\":\r",
+					"                pm.test(\"Response time is less than 800ms\", function () {\r",
+					"                    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+					"                });\r",
+					"                break;\r",
+					"\r",
+					"          \r",
+					"            case \"header\":\r",
+					"                pm.test(\"Content-Type is application/json\", function () {\r",
+					"                    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+					"                });\r",
+					"                break;\r",
+					"\r",
+					"            case \"methodType\":\r",
+					"                pm.test(\"validating the method type\", function () {\r",
+					"                    pm.expect(pm.request.method).to.equal(method);\r",
+					"                });\r",
+					"                break;            \r",
+					"\r",
+					"           \r",
+					"            case \"mandatory field data type\":\r",
+					"                if (method === \"POST\") {\r",
+					"                    pm.test(\"Mandatory fields are present and have correct data types\", function () {\r",
+					"                        let jsonData = pm.response.json();\r",
+					"                        pm.expect(jsonData).to.have.property(\"user_id\").that.is.a(\"number\");\r",
+					"                        pm.expect(jsonData).to.have.property(\"user_first_name\").that.is.a(\"string\");\r",
+					"                        pm.expect(jsonData).to.have.property(\"user_last_name\").that.is.a(\"string\");\r",
+					"                        pm.expect(jsonData).to.have.property(\"user_contact_number\").that.is.a(\"number\");\r",
+					"                        pm.expect(jsonData).to.have.property(\"user_email_id\").that.is.a(\"string\");\r",
+					"\r",
+					"                    });\r",
+					"                }\r",
+					"                break;\r",
+					"\r",
+					"\r",
+					"            case \"optional field data type validation\":\r",
+					"                if (method === \"POST\") {\r",
+					"                    pm.test(\"Optional fields are present and have correct data types\", function () {\r",
+					"                        let jsonData = pm.response.json();\r",
+					"                        if (jsonData.plotNumber) {\r",
+					"                            pm.expect(jsonData.plotNumber).to.be.a(\"string\");\r",
+					"                            pm.expect(jsonData.street).to.be.a(\"string\");\r",
+					"                            pm.expect(jsonData.street).to.be.a(\"string\");\r",
+					"                            pm.expect(jsonData.zipCode).to.be.a(\"number\");\r",
+					"                        }\r",
+					"\r",
+					"                    });\r",
+					"                }\r",
+					"                break;\r",
+					"\r",
+					"            case \"mandatory field values\":\r",
+					"                if (method === \"POST\") {\r",
+					"                    pm.test(\"Mandatory fields have valid values\", function () {\r",
+					"                        let jsonData = pm.response.json();\r",
+					"                        pm.expect(jsonData.user_id).to.be.above(pm.collectionVariables.get(userId));\r",
+					"                        pm.expect(jsonData.user_first_name).to.not.be.empty;\r",
+					"                        pm.expect(jsonData.user_last_name).to.not.be.empty;\r",
+					"                        pm.expect(jsonData.user_contact_number).to.not.be.empty;\r",
+					"                        pm.expect(jsonData.user_email_id).to.not.be.empty;\r",
+					"\r",
+					"                    });\r",
+					"                }\r",
+					"                break;\r",
+					"\r",
+					"\r",
+					"            default:\r",
+					"                console.log(\"Invalid test type\");\r",
+					"        }\r",
+					"    }\r",
+					"\r",
+					"   pm.globals.set(\"validateFunction\", validateFunction); \r",
+					"  \r",
+					"\r",
+					"if (pm.request.method === \"POST\") {\r",
+					"let usersDataStr = pm.collectionVariables.get(\"usersData\");\r",
+					"let usersData = usersDataStr ? JSON.parse(usersDataStr) : [];\r",
+					"let expectedStatus = parseInt(pm.variables.get(\"ExpectedStatus\"));\r",
+					"\r",
+					"console.log(\"expectedStatus\",expectedStatus);\r",
+					"console.log(\"pm.response.code\",pm.response.code);\r",
+					"if (pm.response.code === expectedStatus && pm.response.code===201) {\r",
+					" console.log(\"in ifblock\");\r",
+					"pm.globals.set(\"variable_key\", \"variable_value\");\r",
+					"let newUser = {\r",
+					"    userId: pm.response.json().user_id,  \r",
+					"    username: pm.response.json().user_first_name \r",
+					"};\r",
+					"\r",
+					"usersData.push(newUser);\r",
+					"\r",
+					"pm.collectionVariables.set(\"usersData\", JSON.stringify(usersData));\r",
+					"\r",
+					"if (usersData.length > 0) {\r",
+					"   \r",
+					"    let firstUser = usersData[0];\r",
+					"    if (firstUser) {\r",
+					"        console.log(\"First User ID:\", firstUser.userId);\r",
+					"        pm.collectionVariables.set(\"userid1\", firstUser.userId);\r",
+					"        pm.collectionVariables.set(\"firstname1\", firstUser.username);\r",
+					"    }\r",
+					"\r",
+					"   \r",
+					"    let secondUser = usersData[1];\r",
+					"    if (secondUser) {\r",
+					"        console.log(\"Second User Username:\", secondUser.username);\r",
+					"         pm.collectionVariables.set(\"userid2\", secondUser.userId);\r",
+					"         pm.collectionVariables.set(\"firstname2\", secondUser.username);\r",
+					"    }\r",
+					"} else {\r",
+					"    console.log(\"No users in the array.\");\r",
+					"}}\r",
+					"else if(pm.response.code === 201 && expectedStatus===400){\r",
+					"    console.log(\"in else block\");\r",
+					"let userId = pm.response.json().user_id;  // Assuming 'user_id' is the field in the response\r",
+					"     pm.collectionVariables.set(\"userid1\", userId);\r",
+					"    console.log(\"User ID created unexpectedly:\", userId);\r",
+					"  \r",
+					"\r",
+					"   pm.sendRequest({\r",
+					"        url: `https://userserviceapp-f5a54828541b.herokuapp.com/uap/deleteuser/${userId}`,  \r",
+					"        method: 'DELETE',\r",
+					"        header: {\r",
+					"            'Content-Type': 'application/json'            \r",
+					"    }, function (err, res) {\r",
+					"        if (err) {\r",
+					"            console.log(\"Error while deleting user:\", err);\r",
+					"        } else {\r",
+					"            console.log(\"Clean-up successful for user ID:\", userId);\r",
+					"        }\r",
+					"}});\r",
+					"\r",
+					"} else {\r",
+					"    console.log(\"This script only runs for POST requests.\");\r",
+					"}\r",
+					"}\r",
+					"\r",
+					"\r",
+					"\r",
+					"\r",
+					"\r",
+					"\r",
+					"\r",
+					"\r",
+					"\r",
+					"\r",
+					"\r",
+					"\r",
+					"\r",
+					"\r",
+					"\r",
+					"\r",
+					"\r",
+					"\r",
+					"\r",
+					"\r",
+					""
+				]
+			}
+		}
+	]
+}
