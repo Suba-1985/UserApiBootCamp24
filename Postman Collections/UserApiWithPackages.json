@@ -63,8 +63,8 @@
 					"script": {
 						"id": "3cc63cce-6463-4146-b2f4-db389f90e463",
 						"exec": [
-							"//const validate = pm.require('@red-desert-73536/reusablescriptvalidationforeachmethodtype');\r",
-							"let validate =pm.globals.get(\"validateFunction\");\r",
+							"const validate = pm.require('@red-desert-73536/reusablescriptvalidationforeachmethodtype');\r",
+							"//let validate =pm.globals.get(\"validateFunction\");\r",
 							"\r",
 							"let usersDataStr = pm.collectionVariables.get(\"usersData\");\r",
 							"let usersData = usersDataStr ? JSON.parse(usersDataStr) : [];\r",
@@ -147,9 +147,9 @@
 							"  pm.response.to.have.jsonSchema(schema);\r",
 							"});\r",
 							"\r",
-							"validate(pm.request.method,\"header\");\r",
-							"validate(pm.request.method,\"response time\");\r",
-							"validate(pm.request.method,\"methodType\");\r",
+							"validate.validateFunction(pm.request.method,\"header\");\r",
+							"validate.validateFunction(pm.request.method,\"response time\");\r",
+							"validate.validateFunction(pm.request.method,\"methodType\");\r",
 							"\r",
 							"let newUser = {\r",
 							"    userId: pm.response.json().user_id,  \r",
@@ -203,7 +203,11 @@
 							""
 						],
 						"type": "text/javascript",
-						"packages": {}
+						"packages": {
+							"@red-desert-73536/reusablescriptvalidationforeachmethodtype": {
+								"id": "01921bd4-dcdb-78bb-8b60-24911fcd09ae"
+							}
+						}
 					}
 				},
 				{
@@ -840,6 +844,28 @@
 					""
 				]
 			}
+		}
+	],
+	"variable": [
+		{
+			"key": "usersData",
+			"value": ""
+		},
+		{
+			"key": "userid1",
+			"value": ""
+		},
+		{
+			"key": "firstname1",
+			"value": ""
+		},
+		{
+			"key": "userid2",
+			"value": ""
+		},
+		{
+			"key": "firstname2",
+			"value": ""
 		}
 	]
 }
