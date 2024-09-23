@@ -599,7 +599,7 @@
 							"}\r",
 							"\r",
 							"\r",
-							"pm.collectionVariables.clear();"
+							"//pm.collectionVariables.clear();"
 						],
 						"type": "text/javascript",
 						"packages": {}
