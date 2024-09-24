@@ -567,6 +567,17 @@
 					"script": {
 						"id": "a7d2f85d-58dd-4fd9-afad-85d28246279d",
 						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "227b2ca1-780e-4a76-9dd4-e13e3831c312",
+						"exec": [
 							"\r",
 							"let usersDataStr = pm.collectionVariables.get(\"usersData\");\r",
 							"let usersData = usersDataStr ? JSON.parse(usersDataStr) : [];\r",
@@ -772,16 +783,6 @@
 					""
 				]
 			}
-		}
-	],
-	"variable": [
-		{
-			"key": "userid1",
-			"value": ""
-		},
-		{
-			"key": "userid2",
-			"value": ""
 		}
 	]
 }
