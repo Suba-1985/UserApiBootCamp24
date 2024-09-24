@@ -28,11 +28,11 @@
 							"//const validate =pm.require('@red-desert-73536/reusablescriptvalidationforeachmethodtype');\r",
 							"//let validate = pm.collectionVariables.get(\"validateFunction\")\r",
 							"// @ts-check\r",
-							"const { validate } = require('@red-desert-73536/reusablescriptvalidationforeachmethodtype');\r",
+							"const {validate } = require('validateFunction');\r",
 							"\r",
 							"let userid=pm.collectionVariables.get(\"userid1\");\r",
 							"if(pm.response.code===200){\r",
-							"  validate.validateFunction(pm.request.method,\"header\",userid);   \r",
+							"  validate(pm.request.method,\"header\",userid);   \r",
 							"}\r",
 							""
 						],
@@ -48,7 +48,7 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "{{BaseUrl}}{{GetAllUsersEndPoint}}"
+				"url": "{{BaseUrl}}{{GetAllUsersEndPoint}"
 			},
 			"response": []
 		},
