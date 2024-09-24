@@ -25,19 +25,23 @@
 						"id": "e027a6d0-c59d-4abb-943c-d4a18b70370d",
 						"exec": [
 							"\r",
-							"//const validate =pm.require('@red-desert-73536/reusablescriptvalidationforeachmethodtype');\r",
+							"const validate =pm.require('@red-desert-73536/reusablescriptvalidationforeachmethodtype');\r",
 							"//let validate = pm.collectionVariables.get(\"validateFunction\")\r",
 							"// @ts-check\r",
-							"const {validate } = require('validateFunction');\r",
+							"//const {validate } = require('validateFunction');\r",
 							"\r",
 							"let userid=pm.collectionVariables.get(\"userid1\");\r",
 							"if(pm.response.code===200){\r",
-							"  validate(pm.request.method,\"header\",userid);   \r",
+							"  validate.validateFunction(pm.request.method,\"header\",userid);   \r",
 							"}\r",
 							""
 						],
 						"type": "text/javascript",
-						"packages": {}
+						"packages": {
+							"@red-desert-73536/reusablescriptvalidationforeachmethodtype": {
+								"id": "01921bd4-dcdb-78bb-8b60-24911fcd09ae"
+							}
+						}
 					}
 				}
 			],
